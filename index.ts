@@ -26,8 +26,10 @@ app.get("/", async (req, res) => {
 // ユーザー追加：フォームからの送信を受け付ける
 app.post("/users", async (req, res) => {
   const name = req.body.name;
-  if (name) {
-    await prisma.user.create({ data: { name } });
+  const age = Number(req.body.age); // 数値に変換するぞ
+  if (name && !isNaN(age)) {
+    await prisma.user.create({ data: { name, age } });
+    console.log(`追加: ${name} (${age}歳)`);
   }
   res.redirect("/");
 });
